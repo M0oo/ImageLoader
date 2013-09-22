@@ -16,6 +16,8 @@
 package com.novoda.imageloader.core.model;
 
 import android.content.Context;
+import android.graphics.Point;
+import android.os.Build;
 import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.WindowManager;
@@ -83,6 +85,30 @@ public final class ImageTagFactory {
      */
     public static ImageTagFactory newInstance() {
         return new ImageTagFactory();
+    }
+
+    /**
+     * Creates a new ImageTagFactory without a default placeholder image.
+     * <p>
+     * It is still recommended to set an error image ({@link #setErrorImageId(int)}).
+     *
+     * @param context  Context used to access the device display
+     * @return imageTagFactory  the ImageTagFactory constructed with initial size parameters
+     */
+    public static ImageTagFactory newInstance(Context context) {
+        ImageTagFactory imageTagFactory = new ImageTagFactory();
+        Display display = imageTagFactory.prepareDisplay(context);
+        Point point = new Point();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
+            display.getSize(point);
+        } else {
+            point.x = display.getWidth();
+            point.y = display.getHeight();
+        }
+
+        imageTagFactory.setInitialSizeParams(imageTagFactory, point.x, point.y);
+        return imageTagFactory;
     }
 
     /**
@@ -223,7 +249,7 @@ public final class ImageTagFactory {
     }
 
     /**
-     * Creates a new ImageTag for the given iamge url. It uses the previously set parameters.
+     * Creates a new ImageTag for the given image url. It uses the previously set parameters.
      * <p/>
      * If useSameUrlForPreviewImage is set to false the preview url has to be set after building the ImageTag.
      *
@@ -275,8 +301,8 @@ public final class ImageTagFactory {
     }
 
     private void checkValidTagParameters() {
-        if (defaultImageResId == 0 || width == 0 || height == 0) {
-            throw new RuntimeException("defaultImageResId, width or height was not set before calling build()");
+        if (width == 0 || height == 0) {
+            throw new RuntimeException("width or height was not set before calling build()");
         }
     }
 

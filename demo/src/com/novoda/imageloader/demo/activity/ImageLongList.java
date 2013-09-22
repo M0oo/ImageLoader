@@ -14,7 +14,7 @@ import com.novoda.imageloader.demo.activity.base.ImageLoaderBaseActivity;
 import java.util.Locale;
 
 /**
- * Example of setting a specific image size. Not that you can ask the imageLoader to store the small image as files. In this way you don't need to scale images
+ * Example of setting a specific image size. Note that you can ask the imageLoader to store the small image as files. In this way you don't need to scale images
  * every time
  */
 public class ImageLongList extends ImageLoaderBaseActivity {
@@ -38,7 +38,8 @@ public class ImageLongList extends ImageLoaderBaseActivity {
 
     private void initImageLoader() {
         imageManager = DemoApplication.getImageLoader();
-        imageTagFactory = ImageTagFactory.newInstance(SIZE, SIZE, R.drawable.bg_img_loading);
+        imageTagFactory = ImageTagFactory.newInstance(getApplicationContext());
+        imageTagFactory.setDefaultImageResId(R.drawable.bg_img_loading);
         imageTagFactory.setErrorImageId(R.drawable.bg_img_notfound);
         imageTagFactory.setSaveThumbnail(true);
         setAnimationFromIntent(imageTagFactory);
