@@ -1,1 +1,1 @@
-include 'acceptance', 'core', 'demo'
+include 'core' //'acceptance', 'core', 'demo'

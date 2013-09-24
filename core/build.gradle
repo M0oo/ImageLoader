@@ -1,0 +1,80 @@
+// build.gradle for imageloader core
+
+project.archivesBaseName = 'com.novoda.imageloader'
+
+/************************************************************************************/
+/* https://github.com/hierynomus/license-gradle-plugin ******************************/
+/************************************************************************************/
+buildscript {
+    repositories {
+            mavenCentral()
+    } 
+    
+    dependencies {
+        classpath 'nl.javadude.gradle.plugins:license-gradle-plugin:0.5.0'
+    }
+}
+
+apply plugin: 'license'
+license {
+    header rootProject.file('src/main/resources/license.txt')
+    strictCheck true
+    // TODO: unsure if it's possible to specify excludes 
+}
+/************************************************************************************/
+    
+
+
+
+apply plugin: 'java'
+configurations { provided }
+sourceSets {
+    main.compileClasspath += configurations.provided
+    test.compileClasspath += configurations.provided
+    test.runtimeClasspath += configurations.provided
+}
+
+apply plugin: 'eclipse'
+eclipse.classpath.plusConfigurations += configurations.provided
+
+apply plugin: 'idea'
+idea.module.scopes.PROVIDED.plus += configurations.provided
+
+
+
+
+/************************************************************************************/
+/* http://stackoverflow.com/questions/11474729/how-to-build-sources-jar-with-gradle */
+/************************************************************************************/
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives sourcesJar
+    archives javadocJar
+}
+/************************************************************************************/
+
+
+
+
+dependencies {
+    provided 'com.google.android:android:2.3.3'
+    testCompile 'junit:junit:4.11'
+    testCompile 'org.robolectric:robolectric:1.0-RC1'
+    compile 'org.mockito:mockito-core:1.9.5'
+    testCompile 'commons-io:commons-io:2.4'
+    // instrumentTestCompile 'org.mockito:mockito-core:1.9.5'
+    testCompile 'org.powermock:powermock-module-junit4:1.5'
+    testCompile 'org.powermock:powermock-api-mockito:1.5'
+    testCompile 'org.powermock:powermock-module-junit4-rule:1.5'
+    testCompile 'org.powermock:powermock-classloading-objenesis:1.5'
+    testCompile 'junit-addons:junit-addons:1.4'
+}

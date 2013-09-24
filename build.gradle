@@ -1,9 +1,17 @@
 // build.gradle for imageloader parent
 def teamDir = new File(buildscript.sourceFile.parentFile, 'team-props')
-ext.checkstyleConfigDir = "$teamDir"
+ext {
+    checkstyleConfigDir = "$teamDir"
+    scmBranch = "master"
+    junitVersion="4.11"
+    projectBuildSourceEncoding="UTF-8"
+    androidVersion="2.3.3"
+    androidSdkPlatform="10"
+}
+
+
 
 subprojects {
-
     apply plugin: 'checkstyle'
     checkstyle {
         ignoreFailures = true
@@ -11,6 +19,7 @@ subprojects {
         configProperties.checkstyleConfigDir = checkstyleConfigDir
     }
 
+    // TODO: @Frankie is there a reason this should be commented out
     /*apply plugin: 'findbugs'
     findbugs {
         ignoreFailures = true

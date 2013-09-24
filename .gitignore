@@ -16,4 +16,10 @@ out
 .idea
 *.iml
 classes
+
+#gradle
+build
+.gradle
+
+# backup files end in tilde (edit)
 *.*~
