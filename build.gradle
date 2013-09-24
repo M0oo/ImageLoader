@@ -1,0 +1,30 @@
+// build.gradle for imageloader parent
+def teamDir = new File(buildscript.sourceFile.parentFile, 'team-props')
+ext.checkstyleConfigDir = "$teamDir"
+
+subprojects {
+
+    apply plugin: 'checkstyle'
+    checkstyle {
+        ignoreFailures = true
+        configFile = rootProject.file('team-props/checkstyle.xml')
+        configProperties.checkstyleConfigDir = checkstyleConfigDir
+    }
+
+    /*apply plugin: 'findbugs'
+    findbugs {
+        ignoreFailures = true
+    }*/
+
+    apply plugin: 'pmd'
+    pmd {
+        ignoreFailures = true
+    }
+
+    apply plugin: 'jacoco'
+
+    repositories {
+        mavenCentral()
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
+    }
+}
