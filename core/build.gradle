@@ -1,6 +1,6 @@
 // build.gradle for imageloader core
 
-project.archivesBaseName = 'com.novoda.imageloader'
+project.ext.set("archivesBaseName", "com.novoda.imageloader")
 
 /************************************************************************************/
 /* https://github.com/hierynomus/license-gradle-plugin ******************************/
